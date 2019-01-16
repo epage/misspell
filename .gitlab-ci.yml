@@ -64,4 +64,4 @@ release_github:
     - bloom42cicd
   script:
     - go get -u github.com/bloom42/rocket
-- rocket
+    - rocket
