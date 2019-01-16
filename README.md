@@ -5,6 +5,7 @@
 
 --------
 
+[![pipeline status](https://gitlab.com/bloom42/misspell/badges/master/pipeline.svg)](https://gitlab.com/bloom42/misspell/commits/master)
 [![misspell crate](https://img.shields.io/crates/v/misspell.svg)](https://crates.io/crates/misspell)
 [![misspell documentation](https://docs.rs/misspell/badge.svg)](https://docs.rs/misspell)
 
