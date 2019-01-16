@@ -3,3 +3,4 @@ success # must NOT match
 contributors are # must NOT match
 color # must NOT match
 colour # must match
+yuo # must NOT match when -n > 3
