@@ -39,7 +39,7 @@ misspell file1.go file2.go directory1
 
 [registry.gitlab.com/bloom42/misspell](https://gitlab.com/bloom42/misspell/container_registry)
 
-## Usage
+### Usage
 
 ```
 docker run --rm -ti -v $PWD:/misspell registry.gitlab.com/bloom42/misspell:latest
