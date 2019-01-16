@@ -11,8 +11,9 @@
 
 1. [Install](#install)
 2. [Usage](#usage)
-3. [Wordlists](#wordlists)
-4. [License](#license)
+3. [Docker](#docker)
+4. [Wordlists](#wordlists)
+5. [License](#license)
 
 -------------------
 
@@ -31,6 +32,17 @@ misspell .
 misspell file1.go file2.go directory1
 ```
 
+## Docker
+
+### Image
+
+[registry.gitlab.com/bloom42/misspell](https://gitlab.com/bloom42/misspell/container_registry)
+
+## Usage
+
+```
+docker run --rm -ti -v $PWD:/misspell registry.gitlab.com/bloom42/misspell:latest
+```
 
 ## Wordlists
 
