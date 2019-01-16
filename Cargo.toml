@@ -7,7 +7,7 @@ homepage = "https://github.com/bloom42/misspell"
 repository = "https://github.com/bloom42/misspell.git"
 description = "Correct commonly misspelled English words in source files 📖"
 keywords = ["misspell", "bloom", "orthography", "cli"]
-license = "apache-2.0"
+license = "Apache-2.0"
 
 [dependencies]
 ignore = "0.4"
