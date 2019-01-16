@@ -45,6 +45,7 @@ misspell file1.go file2.go directory1
 docker run --rm -ti -v $PWD:/misspell registry.gitlab.com/bloom42/misspell:latest
 ```
 
+
 ## Wordlists
 
 From [https://github.com/client9/misspell](https://github.com/client9/misspell)
