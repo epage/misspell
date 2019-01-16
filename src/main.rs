@@ -1,3 +1,5 @@
+mod info;
+
 use clap::App;
 use ignore::Walk;
 use std::fs::{metadata, File};
@@ -19,6 +21,7 @@ fn process_file(path: &Path, dictionary: &HashMap<&str, &str>) {
             line.split_whitespace()
             .map(|word| {
                 // lowercase word then remove all non alphabetical characters
+                // eg: `dictionary`
                 word.to_lowercase()
                 .chars()
                 .filter(|x|
@@ -50,7 +53,10 @@ fn parse_words(csv_data: &str) -> HashMap<&str, &str> {
 }
 
 fn main() {
-    let matches = App::new("misspell")
+    let matches = App::new(info::NAME)
+        .author(info::AUTHOR)
+        .version(info::VERSION)
+        .about(info::DESCRPITION)
         .arg(
             clap::Arg::with_name("files")
                 .multiple(true)

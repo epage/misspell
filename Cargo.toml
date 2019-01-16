@@ -1,6 +1,6 @@
 [package]
 name = "misspell"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["z0mbie42 <sylvain@kerkour.com>"]
 edition = "2018"
 homepage = "https://github.com/bloom42/misspell"
