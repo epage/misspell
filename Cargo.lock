@@ -167,7 +167,7 @@ dependencies = [
 
 [[package]]
 name = "misspell"
-version = "0.1.2"
+version = "0.1.3"
 dependencies = [
  "clap 2.32.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "ignore 0.4.6 (registry+https://github.com/rust-lang/crates.io-index)",

@@ -56,7 +56,7 @@ fn main() {
     let matches = App::new(info::NAME)
         .author(info::AUTHOR)
         .version(info::VERSION)
-        .about(info::DESCRPITION)
+        .about(info::DESCRIPTION)
         .arg(
             clap::Arg::with_name("files")
                 .multiple(true)

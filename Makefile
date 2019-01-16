@@ -1,4 +1,4 @@
-.PHONY: build lint test audit docker docker_release docker_push release
+.PHONY: build lint test audit docker docker_release docker_push release build_static
 
 NAME = $(shell cat src/info.rs  | grep NAME | cut -d'"' -f2)
 DIST_DIR = target
@@ -12,6 +12,9 @@ $(NAME): build
 
 build:
 	cargo build --release
+
+build_static:
+	cargo build --release --target=x86_64-unknown-linux-musl
 
 release:
 	git tag v$(VERSION)
