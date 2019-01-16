@@ -5,6 +5,7 @@ use std::io::{BufReader, BufRead};
 use std::path::Path;
 use std::collections::HashMap;
 
+/// check all lines of a file for misspelled words
 fn process_file(path: &Path, dictionnary: &HashMap<&str, &str>) {
     let attrs = metadata(path).unwrap();
     if attrs.is_dir() {
@@ -27,6 +28,7 @@ fn process_file(path: &Path, dictionnary: &HashMap<&str, &str>) {
         });
 }
 
+/// transform a csv file in the form `mispelled_word,correction` to an HashMap for fast lookup
 fn parse_words(csv_data: &str) -> HashMap<&str, &str> {
     let mut ret = HashMap::new();
     csv_data.lines()
