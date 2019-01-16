@@ -17,13 +17,16 @@
 -------------------
 
 ## Install
+
 ```bash
 cargo install misspell
 ```
 
 
 ## Usage
+
 ```bash
+misspell # same as "misspell ."
 misspell .
 misspell file1.go file2.go directory1
 ```

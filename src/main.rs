@@ -5,27 +5,23 @@ use std::io::{BufReader, BufRead};
 use std::path::Path;
 use std::collections::HashMap;
 
-fn process_file(path: &Path, words_map: &HashMap<&str, &str>) {
+fn process_file(path: &Path, dictionnary: &HashMap<&str, &str>) {
     let attrs = metadata(path).unwrap();
     if attrs.is_dir() {
         return;
     }
     let file = File::open(path).unwrap();
     BufReader::new(file).lines()
-        .filter(|line| {
-            match line {
-                Ok(_) => true,
-                _ => false,
-            }
-        })
-        .map(|line| line.unwrap())
+        .filter_map(|line| line.ok())
         .enumerate()
-        .for_each(|(i, line)| {
+        .for_each(|(i, line)| { // for each line
             line.split_whitespace()
             .map(|word| word.to_lowercase())
-            .for_each(|word| {
-                if words_map.contains_key(word.as_str()) {
-                    println!("{}:{}: {:?} -> {}",  path.display(), i + 1, word, words_map.get(word.as_str()).unwrap());
+            .for_each(|word| { // for each word in the line
+                if dictionnary.contains_key(word.as_str()) {
+                    println!("{}:{}: {:?} -> {}",  path.display(), i + 1, word,
+                        dictionnary.get(word.as_str()).unwrap()
+                    );
                 }
             });
         });
