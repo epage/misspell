@@ -1,3 +1,5 @@
-successs
-success
-contributors are
+successs # must match
+success # must NOT match
+contributors are # must NOT match
+color # must NOT match
+colour # must match

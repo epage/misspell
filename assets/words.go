@@ -1,4 +1,4 @@
-package misspell
+package main
 
 // Code generated automatically.  DO NOT EDIT.
 

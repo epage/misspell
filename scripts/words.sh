@@ -1,1 +1,1 @@
-cat assets/words.go | rg '"' | cut -d'"' -f2-4 | tr -d '"' > assets/words.csv
+go run assets/main.go assets/words.go  > assets/words.csv

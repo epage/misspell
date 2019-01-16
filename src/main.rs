@@ -35,7 +35,7 @@ fn parse_words(csv_data: &str) -> HashMap<&str, &str> {
     let mut ret = HashMap::new();
     csv_data.lines()
         .for_each(|line| {
-            let pair = line.split(", ").collect::<Vec<_>>();
+            let pair = line.split(',').collect::<Vec<_>>();
             let pair = (pair[0], pair[1]);
             ret.insert(pair.0, pair.1);
         });
