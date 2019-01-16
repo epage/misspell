@@ -6,7 +6,7 @@ use std::path::Path;
 use std::collections::HashMap;
 
 /// check all lines of a file for misspelled words
-fn process_file(path: &Path, dictionnary: &HashMap<&str, &str>) {
+fn process_file(path: &Path, dictionary: &HashMap<&str, &str>) {
     let attrs = metadata(path).unwrap();
     if attrs.is_dir() {
         return;
@@ -17,18 +17,27 @@ fn process_file(path: &Path, dictionnary: &HashMap<&str, &str>) {
         .enumerate()
         .for_each(|(i, line)| { // for each line
             line.split_whitespace()
-            .map(|word| word.to_lowercase())
-            .for_each(|word| { // for each word in the line
-                if dictionnary.contains_key(word.as_str()) {
+            .map(|word| {
+                // lowercase word then remove all non alphabetical characters
+                word.to_lowercase()
+                .chars()
+                .filter(|x|
+                    match x {
+                        'a'...'z' => true,
+                        _ => false,
+                }).collect()
+            })
+            .for_each(|word: String| { // for each word in the line
+                if dictionary.contains_key(word.as_str()) {
                     println!("{}:{}: {:?} -> {}",  path.display(), i + 1, word,
-                        dictionnary.get(word.as_str()).unwrap()
+                        dictionary.get(word.as_str()).unwrap()
                     );
                 }
             });
         });
 }
 
-/// transform a csv file in the form `mispelled_word,correction` to an HashMap for fast lookup
+/// transform a csv file in the form `mispelled_word,correction` to a HashMap for fast lookup
 fn parse_words(csv_data: &str) -> HashMap<&str, &str> {
     let mut ret = HashMap::new();
     csv_data.lines()
