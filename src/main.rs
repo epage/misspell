@@ -1,5 +1,3 @@
-mod info;
-
 use clap::{App, Arg};
 use ignore::Walk;
 use std::fs::{metadata, File};
@@ -52,10 +50,10 @@ fn parse_words(csv_data: &str) -> HashMap<&str, &str> {
 }
 
 fn main() {
-    let matches = App::new(info::NAME)
-        .author(info::AUTHOR)
-        .version(info::VERSION)
-        .about(info::DESCRIPTION)
+    let matches = App::new(clap::crate_name!())
+        .author(clap::crate_authors!())
+        .version(clap::crate_version!())
+        .about(clap::crate_description!())
         .arg(Arg::with_name("files")
             .multiple(true)
             .default_value(".")
