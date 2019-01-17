@@ -28,14 +28,14 @@ fn tokenize<'l>(line: &'l str) -> impl Iterator<Item=String> + 'l {
 fn process_file(path: &Path, dictionary: &Corrections, min_token: u64) {
     let file = File::open(path).expect("file is accessible because of walking");
     BufReader::new(file).lines()
-        .filter_map(|line| line.ok())
         .enumerate()
-        .for_each(|(i, line)| { // for each line
+        .filter_map(|(idx, line)| line.ok().map(|l| (idx + 1, l)))
+        .for_each(|(line_num, line)| { // for each line
             tokenize(&line)
             .filter(|word: &String| word.len() >= min_token as usize)
             .for_each(|word: String| { // for each word in the line
                 if let Some(correction) = dictionary.correct(&word) {
-                    render(path, i + 1, &word, correction);
+                    render(path, line_num, &word, correction);
                 }
             });
         });
