@@ -1,6 +1,6 @@
 use clap::{App, Arg};
 use ignore::Walk;
-use std::fs::{metadata, File};
+use std::fs::{File};
 use std::io::{BufReader, BufRead};
 use std::path::Path;
 use std::collections::HashMap;
