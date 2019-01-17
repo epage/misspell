@@ -12,6 +12,3 @@ license = "Apache-2.0"
 [dependencies]
 ignore = "0.4"
 clap = "2.32"
-
-[dev-dependencies]
-assert_fs = "0.10"
