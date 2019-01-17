@@ -75,7 +75,8 @@ fn main() {
         )
         .get_matches();
 
-    let words_map = parse_words(include_str!("../assets/words.csv"));
+    let words = misspell::CORPUS;
+    let words_map = misspell::Corrections::new(words);
     let min_token_length = matches.value_of("min_token_length").unwrap_or("3");
     let min_token_length: u64 = min_token_length.parse().expect("length argument is not valid");
 
