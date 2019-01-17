@@ -3,6 +3,8 @@ use std::fs::File;
 use std::io::{BufReader, BufRead};
 use std::path::Path;
 
+pub const CORPUS: &str = include_str!("../assets/words.csv");
+
 pub fn render(path: &Path, line_num: usize, word: &str, correction: &str) {
     println!("{}:{}: {:?} -> {}",  path.display(), line_num, word, correction);
 }
