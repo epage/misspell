@@ -26,7 +26,7 @@ fn tokenize<'l>(line: &'l str) -> impl Iterator<Item=String> + 'l {
 
 /// check all lines of a file for misspelled words
 fn process_file(path: &Path, dictionary: &Corrections, min_token: u64) {
-    let file = File::open(path).expect("opening file");
+    let file = File::open(path).expect("file is accessible because of walking");
     BufReader::new(file).lines()
         .filter_map(|line| line.ok())
         .enumerate()
@@ -86,10 +86,10 @@ fn main() {
     let min_token_length = matches.value_of("min_token_length").unwrap_or("3");
     let min_token_length: u64 = min_token_length.parse().unwrap();
 
-    matches.values_of("files").expect("error opening files").collect::<Vec<_>>()
+    matches.values_of("files").expect("parameter exists because defaulted").collect::<Vec<_>>()
         .iter()
         .filter(|p| {
-            let attrs = metadata(p).expect("reading file metadta");
+            let attrs = metadata(p).expect("path is accessible because of walking");
             attrs.is_dir()
         })
         .for_each(|file| {
