@@ -81,11 +81,11 @@ fn main() {
 
     let words_map = parse_words(include_str!("../assets/words.csv"));
     let min_token_length = matches.value_of("min_token_length").unwrap_or("3");
-    let min_token_length: u64 = min_token_length.parse().unwrap();
+    let min_token_length: u64 = min_token_length.parse().expect("length argument is not valid");
 
     matches.values_of("files").expect("error opening files").collect::<Vec<_>>()
         .iter()
-        .for_each(|file| { // for each file
+        .for_each(|file| { // for each file provided as CLI argument
             Walk::new(file).for_each(|entry| match entry {
                 Ok(entry) => process_file(entry.path(), &words_map, min_token_length),
                 Err(err) => println!("ERROR: {}", err),
