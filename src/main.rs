@@ -26,10 +26,6 @@ fn tokenize<'l>(line: &'l str) -> impl Iterator<Item=String> + 'l {
 
 /// check all lines of a file for misspelled words
 fn process_file(path: &Path, dictionary: &Corrections, min_token: u64) {
-    let attrs = metadata(path).expect("reading file metadta");
-    if attrs.is_dir() {
-        return;
-    }
     let file = File::open(path).expect("opening file");
     BufReader::new(file).lines()
         .filter_map(|line| line.ok())
@@ -92,6 +88,10 @@ fn main() {
 
     matches.values_of("files").expect("error opening files").collect::<Vec<_>>()
         .iter()
+        .filter(|p| {
+            let attrs = metadata(p).expect("reading file metadta");
+            attrs.is_dir()
+        })
         .for_each(|file| {
             Walk::new(file).for_each(|entry| match entry {
                 Ok(entry) => process_file(entry.path(), &words_map, min_token_length),
