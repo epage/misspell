@@ -36,10 +36,6 @@ fn process_line(line_num: usize, line: &str, min_token: u64, path: &Path, dico: 
 
 /// check all lines of a file for misspelled words
 fn process_file(path: &Path, dictionary: &HashMap<&str, &str>, min_token: u64) {
-    let attrs = metadata(path).expect(format!("reading metadata: {}", path.display()).as_str());
-    if attrs.is_dir() {
-        return;
-    }
     let file = File::open(path).expect(format!("opening file: {}", path.display()).as_str());
     BufReader::new(file).lines()
         .filter_map(|line| line.ok())
@@ -86,9 +82,15 @@ fn main() {
     matches.values_of("files").expect("error opening files").collect::<Vec<_>>()
         .iter()
         .for_each(|file| { // for each file provided as CLI argument
-            Walk::new(file).for_each(|entry| match entry {
-                Ok(entry) => process_file(entry.path(), &words_map, min_token_length),
-                Err(err) => println!("ERROR: {}", err),
-            });
+            Walk::new(file)
+            .filter_map(|entry| entry.ok()) // skip erroneous entries
+            .filter(|entry| { // do not process folders
+                let attrs = entry.metadata()
+                    .expect(format!("reading metadata: {}", entry.path().display()).as_str());
+                attrs.is_dir() == false
+            })
+            .for_each(|entry| // for each file found while walking
+                process_file(entry.path(), &words_map, min_token_length)
+            )
     });
 }
