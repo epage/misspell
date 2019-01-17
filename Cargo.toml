@@ -12,4 +12,3 @@ license = "Apache-2.0"
 [dependencies]
 ignore = "0.4"
 clap = "2.32"
-threadpool = "1.0"

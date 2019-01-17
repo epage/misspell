@@ -89,8 +89,8 @@ fn main() {
                     .expect(format!("reading metadata: {}", entry.path().display()).as_str());
                 attrs.is_dir() == false
             })
-            .for_each(|entry| // for each file found while walking
+            .for_each(|entry| { // for each file found while walking
                 process_file(entry.path(), &words_map, min_token_length)
-            )
+            })
     });
 }
