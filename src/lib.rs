@@ -9,7 +9,7 @@ pub fn render(path: &Path, line_num: usize, word: &str, correction: &str) {
     println!("{}:{}: {:?} -> {}",  path.display(), line_num, word, correction);
 }
 
-fn tokenize<'l>(line: &'l str) -> impl Iterator<Item=String> + 'l {
+pub fn tokenize<'l>(line: &'l str) -> impl Iterator<Item=String> + 'l {
     line.split_whitespace()
         .map(|word| {
             // lowercase word then remove all non alphabetical characters
