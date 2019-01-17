@@ -1,67 +1,9 @@
+use std::fs::metadata;
+
 use clap::{App, Arg};
 use ignore::Walk;
-use std::fs::{metadata, File};
-use std::io::{BufReader, BufRead};
-use std::path::Path;
-use std::collections::HashMap;
 
-fn render(path: &Path, line_num: usize, word: &str, correction: &str) {
-    println!("{}:{}: {:?} -> {}",  path.display(), line_num, word, correction);
-}
-
-fn tokenize<'l>(line: &'l str) -> impl Iterator<Item=String> + 'l {
-    line.split_whitespace()
-        .map(|word| {
-            // lowercase word then remove all non alphabetical characters
-            // eg: `dictionary`
-            word.to_lowercase()
-            .chars()
-            .filter(|x|
-                match x {
-                    'a'...'z' => true,
-                    _ => false,
-            }).collect()
-        })
-}
-
-/// check all lines of a file for misspelled words
-fn process_file(path: &Path, dictionary: &Corrections, min_token: u64) {
-    let file = File::open(path).expect("file is accessible because of walking");
-    BufReader::new(file).lines()
-        .enumerate()
-        .filter_map(|(idx, line)| line.ok().map(|l| (idx + 1, l)))
-        .for_each(|(line_num, line)| { // for each line
-            tokenize(&line)
-            .filter(|word: &String| word.len() >= min_token as usize)
-            .for_each(|word: String| { // for each word in the line
-                if let Some(correction) = dictionary.correct(&word) {
-                    render(path, line_num, &word, correction);
-                }
-            });
-        });
-}
-
-struct Corrections<'s> {
-    dict: HashMap<&'s str, &'s str>,
-}
-
-impl<'s> Corrections<'s> {
-    /// transform a csv file in the form `misspelled_word,correction` to a HashMap for fast lookup
-    fn new(csv_data: &'s str) -> Self {
-        let mut ret = HashMap::new();
-        csv_data.lines()
-            .for_each(|line| {
-                let pair = line.split(',').collect::<Vec<_>>();
-                let pair = (pair[0], pair[1]);
-                ret.insert(pair.0, pair.1);
-            });
-        Corrections { dict: ret }
-    }
-
-    fn correct(&self, word: &str) -> Option<&str> {
-        self.dict.get(word).map(|s| *s)
-    }
-}
+use misspell;
 
 fn main() {
     let matches = App::new(clap::crate_name!())
@@ -82,7 +24,7 @@ fn main() {
         .get_matches();
 
     let words = include_str!("../assets/words.csv");
-    let words_map = Corrections::new(words);
+    let words_map = misspell::Corrections::new(words);
     let min_token_length = matches.value_of("min_token_length").unwrap_or("3");
     let min_token_length: u64 = min_token_length.parse().unwrap();
 
@@ -94,7 +36,7 @@ fn main() {
         })
         .for_each(|file| {
             Walk::new(file).for_each(|entry| match entry {
-                Ok(entry) => process_file(entry.path(), &words_map, min_token_length),
+                Ok(entry) => misspell::process_file(entry.path(), &words_map, min_token_length),
                 Err(err) => println!("ERROR: {}", err),
             });
         });
